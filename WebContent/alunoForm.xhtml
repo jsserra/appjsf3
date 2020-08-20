@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Alunos
+	</ui:define>
+	
+<ui:define name="resource">	
+<f:metadata>
+	<f:viewAction action="#{alunoBean.carregar}" />
+</f:metadata>
+</ui:define>
+
+<ui:define name="content">
+	<p:importEnum type="br.appjsf3.model.enums.EstadoCivil" var="EstadoCivil" allSuffix="EnumValores"/>
+	<p:importEnum type="br.appjsf3.model.enums.Desempenho" var="Desempenho" allSuffix="EnumValores"/>
+	
+	<h:form id="formulario">
+		<p:messages id="mensagens"/>
+		<p:growl id="msgs" showDetail="true"/>
+		<p:fieldset legend="Dados Pessoais">
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel value="Nome: " for="nome"/>
+				<p:inputText id="nome" value="#{alunoBean.aluno.nome}" required="true" requiredMessage="Informe um nome!"
+				size="25" maxlength="20" validatorMessage="O nome não pode ter mais que 20 caracteres!"	>
+				<f:validateLength maximum="20"/>
+				<f:ajax event="blur" render="mensagens"/>
+				</p:inputText>
+				<p:message for="nome"/>
+				
+				<p:outputLabel value="SobreNome: " for="sobreNome"/>
+				<p:inputText id="sobreNome" value="#{alunoBean.aluno.sobreNome}" size="35" maxlength="30"
+				validatorMessage="O sobre nome não pode ter mais que 30 caracteres!" >
+				<f:validateLength maximum="30"/>
+				<f:ajax event="blur" render="mensagens"/>
+				</p:inputText>
+				<p:message for="sobreNome"/>
+				
+				<p:outputLabel value="Data de Nascimento: " for="dataNascimento"/>
+				<p:calendar id="dataNascimento" value="#{alunoBean.aluno.dataNascimento}"
+				timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true"
+				maskAutoClear="true" validator="#{alunoBean.confereData}">
+				<f:ajax event="blur" render="mensagens"/>
+				</p:calendar>
+				<p:message for="dataNascimento" style="color: rede"/>
+				
+				<p:outputLabel value="Sexo: " for="sexo"/>
+				<p:selectOneRadio id="sexo" value="#{alunoBean.aluno.sexo}" unselectable="true">
+					<f:selectItem itemLabel="Feminino" itemValue="F"/>
+					<f:selectItem itemLabel="Masculino" itemValue="M"/>				
+				</p:selectOneRadio>
+				<p:message for="sexo"/>
+				
+				<p:outputLabel value="Estado Civil" for="estadoCivil"/>
+				<p:selectOneMenu id="estadoCivil" value="#{alunoBean.aluno.estadoCivil}">
+					<f:selectItems value="#{EstadoCivil.EnumValores}" var="estado_civil" 
+						itemValue="#{estado_civil}" itemLabel="#{estado_civil}"/>
+				</p:selectOneMenu>
+				<p:message for="estadoCivil"/>				
+			</h:panelGrid>
+		</p:fieldset>
+		<br/>
+		
+		<p:fieldset legend="Documentação">
+		<h:panelGrid columns="5" cellpadding="5">
+			<p:outputLabel value="RG: " for="rg"/>
+			<p:inputText id="rg" value="#{alunoBean.aluno.rg}" size="15" maxlength="14">
+				<f:passThroughAttribute name="placeholder" value="RG do aluno"/>
+			</p:inputText>
+			
+			<p:outputLabel value="CPF: " for="cpf"/>
+			<p:inputMask id="cpf" value="#{alunoBean.aluno.cpf}" size="16" required="true" maxlength="14" mask="999.999.999-99">
+				<f:passThroughAttribute name="placeholder" value="CPF do aluno"/>
+			</p:inputMask>
+			<p:message for="cpf"/>
+		</h:panelGrid>		
+		</p:fieldset>
+		<br/>
+		
+		<p:fieldset legend="Endereço" toggleable="true" toggleSpeed="500">
+			<p:ajax event="toggle" listener="#{alunoBean.alterarSecao}" update="msgs"/>
+			<h:panelGrid columns="4" cellpadding="5">
+				<p:outputLabel value="Rua: " for="rua"/>
+				<p:selectOneMenu id="rua" value="#{alunoBean.ruaId}">
+					<f:selectItems value="#{ruaBean.lista}" var="rua" itemValue="#{rua.id}" itemLabel="#{rua.nome}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Bairro: " for="bairro"/>
+				<p:selectOneMenu id="bairro" value="#{alunoBean.bairroId}" >
+					<f:selectItems value="#{bairroBean.lista}" var="bairro" itemValue="#{bairro.id}" itemLabel="#{bairro.nome}"/>
+				</p:selectOneMenu>
+			
+				<p:outputLabel value="Cidade: " for="bairro"/>
+				<p:selectOneMenu id="cidade" value="#{alunoBean.cidadeId}">
+					<f:selectItems value="#{cidadeBean.lista}" var="cidade" itemValue="#{cidade.id}" itemLabel="#{cidade.nome}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Estado: " for="estado"/>
+				<p:selectOneMenu id="estado" value="#{alunoBean.estadoId}">
+					<f:selectItems value="#{estadoBean.lista}" var="estado" itemValue="#{estado.id}" itemLabel="#{estado.nome}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="CEP: " for="cep"/>
+				<p:inputMask id="cep" value="#{alunoBean.cep}" size="12" maxlength="10" mask="99.999-999">
+					<f:passThroughAttribute name="placeholder" value="CEP do aluno"/>
+				</p:inputMask>
+				<p:message for="cep"/>			
+			</h:panelGrid>
+		</p:fieldset>
+		<br/>
+		
+		<p:fieldset legend="Contato" toggleable="true" toggleSpeed="500">
+			<p:ajax event="toggle" listener="#{alunoBean.alterarSecao}" update="msgs"/>
+			<h:panelGrid columns="5" cellpadding="5">
+				<p:outputLabel value="E-mail" for="email"/>
+				<p:inputText id="email" value="#{alunoBean.aluno.email}" required="true" validatorMessage="E-mail inválido!"
+					size="55" maxlength="50">
+					<f:attribute name="type" value="email"/>
+					<f:passThroughAttribute name="placeholder" value="Email do aluno"/>
+					<f:validateRegex pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"/>
+					<f:ajax event="blur" render="mensagemContato"/>				
+				</p:inputText>
+				
+				<p:outputLabel value="Telefone" for="telefone"/>
+				<p:inputMask id="telefone" value="#{alunoBean.aluno.tel}" size="16" maxlength="15" mask="(99)99999-9999">
+					<f:passThroughAttribute name="placeholder" value="Telefone do aluno"/>				
+				</p:inputMask>
+				<p:message id="mensagemContato" for="email"/>			
+			</h:panelGrid>		
+		</p:fieldset>
+		<br/>
+		
+		<p:fieldset legend="Curso">
+			<h:panelGrid columns="6" cellpadding="5">
+				<p:outputLabel value="Curso" for="curso"/>
+				<p:selectOneMenu id="curso" value="#{alunoBean.cursoId}">
+					<f:selectItems value="#{cursoBean.lista}" var="curso" itemValue="#{curso.id}" itemLabel="#{curso.descricao}"/>
+					<p:ajax events="blur, change" update="valor" listener="#{alunoBean.atualizarCurso}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Valor R$" for="valor"/>
+				<p:outputLabel id="valor" value="#{alunoBean.curso.valor}">
+					<f:convertNumber pattern="#,##0.00"/>
+				</p:outputLabel>
+				
+				<p:outputLabel value="Pago" for="pago"/>
+				<p:selectOneRadio id="pago" value="#{alunoBean.aluno.pago}" unselectable="true">
+					<f:selectItem itemLabel="Sim" itemValue="true"/>
+					<f:selectItem itemLabel="Não" itemValue="false"/>
+				</p:selectOneRadio>
+				
+				<p:outputLabel value="Desempenho" for="desempenho" />
+				<p:selectOneMenu id="desempenho" value="#{alunoBean.aluno.desempenho}">
+					<f:selectItems value="#{Desempenho.EnumValores}" var="desempenho_curso"
+						 itemValue="#{desempenho_curso}" itemLabel="#{desempenho_curso}"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Frequencia %" for="frequencia"/>
+				<p:inputNumber id="frequencia" value="#{alunoBean.aluno.frequencia}" maxValue="100.01" minValue="0.00"
+					decimalSeparator="," thousandSeparator="." size="6"/>
+				<p:message for="frequencia"/>
+			</h:panelGrid>	
+		</p:fieldset>
+		<br/>
+		
+		<p:fieldset legend="Observação" toggleable="true" toggleSpeed="500">
+			<p:ajax event="toggle" listener="#{alunoBean.alterarSecao}" update="msgs"/>
+			<h:panelGrid columns="1" cellpadding="5">
+				<p:inputTextarea rows="10" cols="50" maxlength="255" value="#{alunoBean.aluno.obs}"
+					counter="display" counterTemplate="{0} characters remaining."/>
+				<p:outputLabel id="display"/>
+			</h:panelGrid>
+		</p:fieldset>
+		<br/>
+		<p:commandButton value="Gravar" action="#{alunoBean.gravar}"/>
+		<p:commandButton value="Cancelar" action="index?faces-redirect=true" immediate="true"/>		
+	</h:form>
+
+</ui:define>
+</ui:composition>
+</html>

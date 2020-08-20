@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<!-- <h:head>
+	<title>appjsf3 - Cadastro de Logradouro</title>
+</h:head>
+ -->
+ 
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Ruas
+	</ui:define>
+	
+	
+<!-- <h:body> --><ui:define name="content">
+	<h:form id="formulario">
+		<h:messages id="mensagens"/>
+		<fieldset title="Dados do Logradouro">
+			<legend>Dados do Logradouro</legend>
+			<h:panelGrid columns="3" cellpadding="5">			
+				<h:outputLabel value="Nome: " for="nome"/>
+				<h:inputText id="nome" value="#{ruaBean.rua.nome}" required="true"
+					requiredMessage="Informe o nome da Rua!" size="45" maxlength="40"
+					validatorMessage="O nome não pode ser superior a 40 caracteres!">
+					<f:validateLength maximum="40"/>
+					<f:ajax event="blur" render="mensagens"/>
+				</h:inputText>			
+			</h:panelGrid>
+		</fieldset>
+		<br/>
+		<h:commandButton value="Gravar" action="#{ruaBean.gravar}">
+			<f:ajax execute="@form" render="@form :formularioTabelaRua:tabelaRua" />
+		</h:commandButton>			
+		<h:commandButton value="Cancelar" action="index?faces-redirect=true" immediate="true"/>
+	</h:form>
+	<br/>
+	
+	<h:form id="formularioTabelaRua">
+		<fieldset title="Lista de Logradouros">
+			<legend>Lista de Logradouro</legend>
+			<h:dataTable value="#{ruaBean.lista}" var="rua" id="tabelaRua">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value="#{rua.id}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{rua.nome}"/>
+				</h:column>
+				<h:column headerText="Opções">
+					<center>
+						<h:commandLink value="Alterar" action="#{ruaBean.editar(rua)}"/>
+						|
+						<h:commandLink value="Remover" action="#{ruaBean.apagar(rua)}"/>
+					</center>
+				</h:column>
+			</h:dataTable>			
+		</fieldset>
+	</h:form>
+	
+<!--  </h:body> --></ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Estados
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="formulario">
+			<h:messages id="mensagens" />
+			<fieldset>
+				<legend>Cadastrar Estados</legend>
+				<h:panelGrid columns="3">
+					<h:outputLabel value="Nome: " for="nome" />
+					<h:inputText value="#{estadoBean.estado.nome}" />
+				</h:panelGrid>
+			</fieldset>
+			<br />
+			<h:commandButton value="Gravar" action="#{estadoBean.gravar}" />
+			<h:commandButton value="Cancelar" action="index?faces-redirect=true" />
+		</h:form>
+		<br />
+		<h:form>
+			<fieldset>
+				<legend>Lista dos Estados</legend>
+				<h:dataTable value="#{estadoBean.lista}" var="estado">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputText value="#{estado.id}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{estado.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Tools</f:facet>
+						<center>
+							<h:commandLink value="Alterar"
+								action="#{estadoBean.editar(estado)}" />
+							|
+							<h:commandLink value="Excluir"
+								action="#{estadoBean.excluir(estado)}" />
+						</center>
+					</h:column>
+				</h:dataTable>
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

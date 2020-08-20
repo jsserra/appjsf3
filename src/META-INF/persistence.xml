@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+	 	 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+		<!--<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">-->
+  <persistence-unit name="appjsf3PU" transaction-type="RESOURCE_LOCAL">
+ <provider>org.hibernate.ejb.HibernatePersistence</provider> 
+<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes>-->
+   <class>br.appjsf3.model.address.Rua</class>
+   <class>br.appjsf3.model.address.Bairro</class>
+   <class>br.appjsf3.model.address.Cidade</class>
+   <class>br.appjsf3.model.address.Estado</class>
+   <class>br.appjsf3.model.Modulo</class>
+   <class>br.appjsf3.model.Aluno</class>
+   <class>br.appjsf3.model.Curso</class>
+   <class>br.appjsf3.model.Endereco</class>
+   
+    
+    <properties>
+    <!--  <property name="hibernate.archive.autodetection" value="class"/> -->
+      <!--  Conexão com o banco de dados (propriedades JDBC) e Hibernate  -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/appjsf3"/>
+      <property name="hibernate.connection.user" value="root"/>
+      <property name="hibernate.connection.password" value="jss1982"/>
+      <property name="hibernate.hbm2ddl.auto" value="update" /> 
+      <!-- Configuracoes de Debug  -->
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="use_sql_comments" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>

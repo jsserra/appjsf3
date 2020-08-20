@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Cursos
+	</ui:define>
+	
+<ui:define name="resource">	
+<f:metadata>
+	<f:viewAction action="#{cursoBean.carregar}" />
+</f:metadata>
+</ui:define>
+
+<ui:define name="content">
+	<h:messages id="messages" />
+	<h:form>
+		<fieldset>
+			<legend class="labelTitulo">Cadatro de Cursos</legend>
+			<h:panelGrid columns="3">
+				<h:outputLabel class="label" value="Descirção: " for="nome" />
+				<h:inputText id="nome" value="#{cursoBean.curso.descricao}"
+					required="true" size="25"
+					requiredMessage="Nome do curso é obrigatório"
+					validatorMessage="O nome do curso não pode esceder 20 caracteres">
+					<f:validateLength maximum="20" />
+					<f:ajax event="blur" render="messages" />
+				</h:inputText>
+				<h:message for="nome" />
+				<h:outputLabel class="label" value="Valor R$: " for="valor" />
+				<h:inputText id="valor" value="#{cursoBean.curso.valor}" size="12"
+					maxlength="8">
+					<f:convertNumber minFractionDigits="2" />
+					<f:ajax event="blur" render="messages" />
+				</h:inputText>
+				<h:message for="valor" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="3">
+				<h:outputLabel class="label" value="Modulo: " for="modulo" />
+				<h:inputText id="modulo" value="#{cursoBean.moduloItem}" size="35"
+					validatorMessage="o modulo não pode esceder 30 caracteres">
+					<f:validateLength maximum="30" />
+					<f:ajax event="blur" render="messages" />
+				</h:inputText>
+
+				<h:commandButton value="Inserir Modulo"
+					action="#{cursoBean.adicionarModulosDisponiveis}">
+					<f:ajax execute="modulo" render="moduloTabela modulo" />
+				</h:commandButton>
+			</h:panelGrid>
+		</fieldset>
+		
+		<fieldset>
+			<legend class="labelTitulo">Lista de Módulos</legend>
+			<h:dataTable id="moduloTabela" value="#{cursoBean.modulosDisponiveis}" var="modulos">
+				<f:facet name="header">
+					<h:outputText class="label" value="Lista de modulos dispiníveis no curso"/>
+				</f:facet>
+				<h:column rendered="#{not cursoBean.modulosDisponiveisEstaVazia}">
+					<f:facet name="header">Descição</f:facet>
+					<h:outputText value="#{modulos.descricao}"/>
+				</h:column>
+				<h:column rendered="#{not cursoBean.modulosDisponiveisEstaVazia}">
+					<f:facet name="header">Tools</f:facet>
+					<center>
+						<h:commandButton action="#{cursoBean.apagarModulosDisponiveis(modulos)}" value="X" immediate="true"/>
+					</center>
+				</h:column>
+				<f:facet name="footer">
+					<h:outputText class="label" value="Está vazia!" rendered="#{cursoBean.modulosDisponiveisEstaVazia}"/>
+				</f:facet>				
+			</h:dataTable>
+		</fieldset>
+		
+		<h:commandButton value="Gravar" action="#{cursoBean.gravar}"/>
+		<h:commandButton value="Cancelar" action="listaCurso?faces-redirect=true" immediate="true"/>
+
+	</h:form>
+
+</ui:define>
+</ui:composition>
+</html>

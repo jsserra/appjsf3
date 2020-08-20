@@ -1,0 +1,100 @@
+@charset "ISO-8859-1";
+
+body{
+	background-color: #dddddf;
+}
+
+#cabecalho{
+	background: #7e7e7e;
+	border: thin solid lightGray;
+	border-style: outset;
+	padding: 10px;
+	margin-bottom: 10px;
+	height: 35px;	
+}
+
+#barraLatera{
+	border: thin solid lightGray;
+	padding: 5px;
+	width: 160px;
+}
+
+#conteudo{
+	border: thin solid lightGray;
+	background: #fefee2;
+	position: absolute;
+	top: 75px;
+	right: 8px;
+	left: 190px;
+	height: calc(100% - 125px);
+	padding: 5px;
+	overflow: auto;
+}
+
+#rodape{
+	border: thin solid lightGray;
+	background: darkGray;
+	position: absolute;
+	bottom: 0;
+	width: calc(100% - 27px);
+	height: 20px;
+	padding: 5px;
+}
+
+.header{
+	font-size: 2.1em;
+	font-style: normal;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: white;
+	text-align: center;
+	align-content: center;
+}
+
+.logo{
+	position: absolute;
+	top: 6px;
+	left: calc(100% - 100px);
+	z-index: 1;
+}
+
+.figuraStart{
+	/*position: absolute;
+	top: 10px;
+	left: calc(100% - 100px);
+	z-index: 1;*/
+	
+	
+}
+
+.footer{
+	font-size: 1em;
+	font-style: italic;
+	font-family: sans-serif;
+	color: red;
+	text-align: center;
+}
+
+.labelTitulo{
+	font-weight: bold;
+	font-family: sans-serif;
+	font-size: 1.1em;
+}
+
+.label{
+	font-weight: bold;
+	font-family: sans-serif;
+	font-size: .9em;
+	color: tomato;
+}
+
+.ui-widget{
+	font-size: 75%;
+	/*font-style: italic;*/
+}
+
+.themeMenu{
+	overflow: auto;
+	height: 30px;
+	width: 180px;
+}

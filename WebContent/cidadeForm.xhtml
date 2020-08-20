@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Cidades
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="formulario">
+			<h:messages id="mensagens" />
+			<fieldset>
+				<legend>Cadastrar Cidades</legend>
+				<h:panelGrid columns="5" cellpadding="5">
+					<h:outputLabel value="Nome: " for="nome" />
+					<h:inputText value="#{cidadeBean.cidade.nome}" />
+				</h:panelGrid>
+			</fieldset>
+			<br />
+			<h:commandButton value="Gravar" action="#{cidadeBean.gravar}" />
+			<h:commandButton value="Cancelar" action="index?faces-redirect=true"
+				required="true" />
+		</h:form>
+		<br />
+		<h:form>
+			<fieldset>
+				<legend>Lista das Cidades</legend>
+				<h:dataTable value="#{cidadeBean.lista}" var="cidade">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputText value="#{cidade.id}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{cidade.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Tools</f:facet>
+						<center>
+							<h:commandLink value="Alterar"
+								action="#{cidadeBean.editar(cidade)}" />
+							|
+							<h:commandLink value="Excluir"
+								action="#{cidadeBean.excluir(cidade)}" />
+						</center>
+					</h:column>
+				</h:dataTable>
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

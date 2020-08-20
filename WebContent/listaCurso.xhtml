@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Estados
+	</ui:define>
+	<ui:define name="content">
+	<h:form id="formularioTabelaCurso">
+		<h:messages id="mensagens" />
+		<p:dataTable id="ruaTabela" value="#{cursoBean.lista}" var="curso"
+			cellpadding="2" cellspacing="1">
+			<f:facet name="header">
+				<p:outputLabel class="label" value="Lista de Cursos" />
+			</f:facet>
+			<p:column headerText="Id">
+				<p:outputLabel value="#{curso.id}" />
+			</p:column>
+			<p:column headerText="Descrição">
+				<p:outputLabel value="#{curso.descricao}" />
+			</p:column>
+			<p:column headerText="Valor R$">
+				<p:outputLabel value="#{curso.valor}">
+					<f:convertNumber type="currency" pattern="R$ #,##0.00"
+						currencySymbol="R$" locale="pt_BR" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Opções" >
+			<center>
+				<p:commandButton action="#{cursoBean.editar(curso)}"
+					immediate="true" icon="fa fa-fw fa-edit" />
+				<p:commandButton action="#{cursoBean.apagar(curso)}"
+					immediate="true" icon="fa fa-fw fa-remove" id="apagar" />
+				<h:message for="apagar" />
+			</center>
+			</p:column>
+			<f:facet name="footer">
+				<p:outputLabel class="label" value="appjsf3" />
+			</f:facet>
+		</p:dataTable>
+		<center>
+			<p:commandButton action="index?faces-redirect=true" immediate="true"
+				value="Retornar" icon="fa fa-fw fa-chevron-circle-left" />
+		</center>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

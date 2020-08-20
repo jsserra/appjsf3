@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/template/modeloPagina.xhtml">
+	<ui:define name="title">
+		appjsf3 - Formulário Cadastro de Bairros
+	</ui:define>
+	<ui:define name="content">
+	<h:form id="formulario">
+		<h:messages id="mensagens"/>
+		<fieldset title="Bairros">
+			<legend>Cadastrar Bairros</legend>
+			<h:panelGrid columns="3" cellpadding="5">
+				<h:outputLabel value="Nome: " for="nome"/>
+				<h:inputText value="#{bairroBean.bairro.nome}" required="true"
+					requiredMessage="Informe o nome do bairro!" size="45" maxlength="40"
+					validatorMessage="O nome não pode ser maior que 40 caracteres!">
+					<f:validateLength maximum="40"/>
+					<f:ajax event="blur" render="mensagens"/>
+				</h:inputText>
+			</h:panelGrid>
+		</fieldset>
+		<br />
+		<h:commandButton value="Gravar" action="#{bairroBean.gravar}" >
+			<f:ajax execute="@form" render="@form :formularioTabelaBairro:tabelaBairro"/> 
+		</h:commandButton>
+		<h:commandButton value="Cancelar" action="index?faces-redirect=true"
+			immediate="true" />
+	</h:form>
+	<br />
+
+	<h:form id="formularioTabelaBairro">
+		<fieldset title="Lista de Bairros">
+			<legend>Lista de Bairros</legend>
+			<h:dataTable value="#{bairroBean.lista}" var="bairro" id="tabelaBairro">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value="#{bairro.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{bairro.nome}" />
+				</h:column>
+				<h:column headerText="Tools">
+					<center>
+						<h:commandLink value="Alterar" action="#{bairroBean.editar(bairro)}" />
+						|
+						<h:commandLink value="Excluir" action="#{bairroBean.excluir(bairro)}" />
+					</center>
+				</h:column>
+			</h:dataTable>
+		</fieldset>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>
